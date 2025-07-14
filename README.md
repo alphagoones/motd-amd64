@@ -22,22 +22,6 @@ Un système MOTD (Message of the Day) moderne et configurable spécialement con�
 curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/install.sh | sudo bash
 ```
 
-### Installation rapide avec configurations prédéfinies
-
-```bash
-# Configuration serveur (Apache, MySQL, Docker...)
-curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --server
-
-# Configuration station de travail (GPU, développement...)
-curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --workstation
-
-# Configuration minimale (serveurs légers)
-curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --minimal
-
-# Configuration complète (toutes les options)
-curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --full
-```
-
 ### Installation depuis le dépôt Git
 
 ```bash
@@ -148,7 +132,7 @@ Le script détecte automatiquement les services installés et vous permet de sé
 motd-amd64/
 ├── install.sh                     # Script d'installation principal
 ├── scripts/
-│   └── quick-setup.sh             # Installation rapide avec configs prédéfinies
+│   
 ├── README.md                      # Documentation
 ├── LICENSE                        # Licence MIT
 ├── INSTALL.md                     # Guide d'installation détaillé
