@@ -13,38 +13,80 @@ Un système MOTD (Message of the Day) moderne et configurable spécialement con�
 - 🎮 **Support GPU** (NVIDIA, AMD, Intel)
 - 🌡️ **Monitoring température** avancé via lm-sensors
 
-## Installation rapide
+## Installation
+
+### Installation standard (recommandée)
 
 ```bash
-# Télécharger et installer
-curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash
+# Installation interactive complète
+curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/install.sh | sudo bash
+```
 
-# Ou cloner le dépôt
+### Installation rapide avec configurations prédéfinies
+
+```bash
+# Configuration serveur (Apache, MySQL, Docker...)
+curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --server
+
+# Configuration station de travail (GPU, développement...)
+curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --workstation
+
+# Configuration minimale (serveurs légers)
+curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --minimal
+
+# Configuration complète (toutes les options)
+curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts/quick-setup.sh | sudo bash -s -- --full
+```
+
+### Installation depuis le dépôt Git
+
+```bash
+# Cloner le dépôt
 git clone https://github.com/alphagoones/motd-amd64.git
 cd motd-amd64
+
+# Installation interactive
 sudo ./install.sh
+
+# Ou avec Make
+make install
 ```
 
 ## Utilisation
 
-### Installation complète
+### Commandes de base
 ```bash
+# Installation complète
 sudo ./install.sh
-```
 
-### Reconfiguration
-```bash
+# Reconfiguration
 sudo ./install.sh --configure
-```
 
-### Désinstallation
-```bash
+# Désinstallation
 sudo ./install.sh --uninstall
+
+# Test manuel
+sudo run-parts /etc/update-motd.d/
 ```
 
-### Test manuel
+### Commandes Make avancées
 ```bash
-sudo run-parts /etc/update-motd.d/
+# Installations spécialisées
+make install-server        # Configuration serveur
+make install-workstation   # Configuration station de travail
+make install-minimal       # Configuration minimale
+
+# Tests et diagnostics
+make test                   # Test du MOTD
+make test-sensors          # Test capteurs température
+make test-gpu              # Test détection GPU
+make benchmark             # Benchmark performance
+
+# Gestion
+make configure             # Reconfiguration
+make status               # Statut installation
+make info                 # Informations système
+make backup               # Sauvegarde configuration
 ```
 
 ## Configuration
@@ -83,23 +125,48 @@ Le script détecte automatiquement les services installés et vous permet de sé
 - **Rouge** : Serveur critique (variations de rouge)
 - **Violet** : Moderne (variations de violet)
 
+### Configurations prédéfinies
+
+#### Configuration Serveur (`--server`)
+- **Thème** : Bleu professionnel
+- **Informations** : Système, uptime, charge, mémoire, disque, IP, température, utilisateurs, mises à jour
+- **Services** : SSH, Apache2, Nginx, Docker, PostgreSQL, MySQL, Redis, Fail2Ban, UFW
+
+#### Configuration Station de Travail (`--workstation`)
+- **Thème** : Violet moderne
+- **Informations** : Système, architecture, noyau, uptime, charge, mémoire, disque, IP, température, GPU, utilisateurs
+- **Services** : SSH, Docker, Nginx
+
+#### Configuration Minimale (`--minimal`)
+- **Thème** : Vert simple
+- **Informations** : Système, uptime, mémoire, disque, charge
+- **Services** : SSH uniquement
+
 ## Structure du projet
 
 ```
 motd-amd64/
+├── install.sh                     # Script d'installation principal
 ├── scripts/
-│   ├── install.sh             # Script d'installation principal
-│   └── quick-setup.sh         # Installation rapide
-├── README.md                  # Documentation
-├── LICENSE                    # Licence MIT
-├── INSTALL.md                 # Guide d'installation détaillé
-├── CONTRIBUTING.md            # Guide de contribution
-├── SECURITY.md                # Politique de sécurité
-├── Makefile                   # Commandes de développement
-└── examples/                  # Exemples et captures d'écran
-    ├── screenshot-default.png
-    ├── screenshot-blue.png
-    └── server-config.md
+│   └── quick-setup.sh             # Installation rapide avec configs prédéfinies
+├── README.md                      # Documentation
+├── LICENSE                        # Licence MIT
+├── INSTALL.md                     # Guide d'installation détaillé
+├── CONTRIBUTING.md                # Guide de contribution
+├── SECURITY.md                    # Politique de sécurité
+├── CHANGELOG.md                   # Journal des modifications
+├── Makefile                       # Commandes de développement
+├── examples/                      # Exemples de configuration
+│   ├── server-lamp-config.md
+│   ├── workstation-dev-config.md
+│   └── docker-server-config.md
+├── docs/                          # Documentation technique
+│   ├── temperature-sensors.md
+│   ├── gpu-detection.md
+│   └── images/
+└── tools/                         # Outils d'administration
+    ├── benchmark-motd.sh
+    └── export-prometheus.sh
 ```
 
 ## Fichiers générés
@@ -108,13 +175,13 @@ Après installation, les fichiers suivants sont créés :
 
 ```
 /etc/motd-amd64/
-├── config                     # Configuration générale
-├── system_info               # Informations système activées
-└── services                  # Services à surveiller
+├── config                         # Configuration générale
+├── system_info                    # Informations système activées
+└── services                       # Services à surveiller
 
 /etc/update-motd.d/
-├── 00-motd-amd64            # Script principal MOTD
-└── 10-motd-services         # Script surveillance services
+├── 00-motd-amd64                  # Script principal MOTD
+└── 10-motd-services               # Script surveillance services
 ```
 
 ## Personnalisation avancée
@@ -143,7 +210,7 @@ echo "mon-service-custom" | sudo tee -a /etc/motd-amd64/services
 
 ```bash
 # Détecter automatiquement les capteurs
-sudo sensors-detect
+sudo sensors-detect --auto
 
 # Voir les températures disponibles
 sensors
@@ -231,6 +298,25 @@ Détection automatique des services typiques AMD64 :
 - Monitoring (Grafana, Prometheus, Elasticsearch)
 - Sécurité (Fail2Ban, UFW)
 
+## Performance et benchmark
+
+### Test de performance
+```bash
+# Benchmark automatique
+make benchmark
+
+# Test manuel
+time sudo run-parts /etc/update-motd.d/
+
+# Optimisation pour serveurs haute charge
+make install-minimal  # Configuration allégée
+```
+
+### Métriques typiques
+- **Temps d'affichage** : < 200ms (excellent), < 500ms (bon)
+- **Utilisation CPU** : < 5% pendant l'affichage
+- **Impact mémoire** : < 10MB
+
 ## Dépannage
 
 ### MOTD ne s'affiche pas
@@ -276,28 +362,6 @@ sudo chmod +x /etc/update-motd.d/00-motd-amd64
 sudo chmod +x /etc/update-motd.d/10-motd-services
 ```
 
-## Commandes Make
-
-```bash
-# Installation
-make install
-
-# Test
-make test
-
-# Reconfiguration
-make configure
-
-# Statut
-make status
-
-# Sauvegarde
-make backup
-
-# Nettoyage
-make clean
-```
-
 ## Contribution
 
 Les contributions sont les bienvenues ! Voici comment contribuer :
@@ -322,10 +386,12 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 - 🛠️ Surveillance des services
 - 🖥️ Optimisation AMD64 avec support GPU
 - 🌡️ Monitoring température avancé
+- ⚡ Configurations prédéfinies (serveur, workstation, minimal)
+- 🔧 Benchmark et outils d'optimisation
 
 ## Projets connexes
 
-- **MOTD-AARCH64** : Version pour architecture ARM64 → [alphagoones/motd-aarch64](https://github.com/alphagoones/motd-aarch64)
+- **MOTD-AARCH64** : Version pour architecture ARM64/Raspberry Pi → [alphagoones/motd-aarch64](https://github.com/alphagoones/motd-aarch64)
 
 ## Auteur
 
