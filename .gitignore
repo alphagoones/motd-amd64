@@ -1,0 +1,61 @@
+# Logs
+*.log
+*.tmp
+
+# Fichiers de configuration temporaires
+*.bak
+*.swp
+*.swo
+*~
+
+# Fichiers de sauvegarde
+*.backup
+motd-amd64-config-backup-*.tar.gz
+
+# Fichiers de test
+test/
+temp/
+.test-*
+
+# Fichiers cachés du système
+.DS_Store
+Thumbs.db
+
+# Fichiers d'éditeur
+.vscode/
+.idea/
+*.sublime-*
+
+# Archives
+*.tar.gz
+*.zip
+*.rar
+
+# Fichiers de build
+build/
+dist/
+*.deb
+*.rpm
+
+# Variables d'environnement
+.env
+.env.local
+
+# Fichiers de benchmark
+benchmark-*.log
+
+# Fichiers de capteurs (peuvent contenir des infos sensibles)
+sensors-*.conf
+
+# Certificats et clés
+*.pem
+*.key
+*.crt
+
+# Fichiers de cache
+.cache/
+__pycache__/
+
+# Fichiers spécifiques AMD64
+nvidia-*.log
+amd-*.log
