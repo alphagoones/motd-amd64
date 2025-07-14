@@ -143,13 +143,13 @@ install_via_git() {
     git clone "https://github.com/$GITHUB_REPO.git" .
     
     # Vérifier que le script d'installation existe
-    if [[ ! -f "scripts/install.sh" ]]; then
+    if [[ ! -f "install.sh" ]]; then
         print_error "Script d'installation non trouvé dans le dépôt"
         exit 1
     fi
     
     # Rendre le script exécutable
-    chmod +x scripts/install.sh
+    chmod +x install.sh
     
     print_success "Dépôt cloné avec succès"
 }
@@ -167,22 +167,22 @@ install_via_direct() {
     print_info "Téléchargement du script d'installation..."
     
     if command -v curl &> /dev/null; then
-        curl -fsSL "$GITHUB_RAW/scripts/install.sh" -o scripts/install.sh
+        curl -fsSL "$GITHUB_RAW/install.sh" -o install.sh
     elif command -v wget &> /dev/null; then
-        wget -qO scripts/install.sh "$GITHUB_RAW/scripts/install.sh"
+        wget -qO install.sh "$GITHUB_RAW/install.sh"
     else
         print_error "Impossible de télécharger le script d'installation"
         exit 1
     fi
     
     # Vérifier le téléchargement
-    if [[ ! -f "scripts/install.sh" ]] || [[ ! -s "scripts/install.sh" ]]; then
+    if [[ ! -f "install.sh" ]] || [[ ! -s "install.sh" ]]; then
         print_error "Échec du téléchargement du script d'installation"
         exit 1
     fi
     
     # Rendre le script exécutable
-    chmod +x scripts/install.sh
+    chmod +x install.sh
     
     print_success "Script d'installation téléchargé"
 }
@@ -292,9 +292,9 @@ run_installation() {
     
     # Exécuter l'installation
     if [[ $EUID -ne 0 ]]; then
-        sudo ./scripts/install.sh
+        sudo ./install.sh
     else
-        ./scripts/install.sh
+        ./install.sh
     fi
     
     print_success "Installation terminée !"

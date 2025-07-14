@@ -22,24 +22,24 @@ curl -fsSL https://raw.githubusercontent.com/alphagoones/motd-amd64/main/scripts
 # Ou cloner le dépôt
 git clone https://github.com/alphagoones/motd-amd64.git
 cd motd-amd64
-sudo ./scripts/install.sh
+sudo ./install.sh
 ```
 
 ## Utilisation
 
 ### Installation complète
 ```bash
-sudo ./scripts/install.sh
+sudo ./install.sh
 ```
 
 ### Reconfiguration
 ```bash
-sudo ./scripts/install.sh --configure
+sudo ./install.sh --configure
 ```
 
 ### Désinstallation
 ```bash
-sudo ./scripts/install.sh --uninstall
+sudo ./install.sh --uninstall
 ```
 
 ### Test manuel
