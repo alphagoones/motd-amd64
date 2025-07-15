@@ -2,6 +2,10 @@
 
 Un système MOTD (Message of the Day) moderne et configurable spécialement conçu pour les architectures x86_64/AMD64.
 
+![MOTD Preview](docs/images/amd64.PNG)
+
+*Aperçu du MOTD-AMD64 en action*
+
 ## Fonctionnalités
 
 - 🎨 **Interface moderne** avec bordures et couleurs personnalisables
